@@ -242,6 +242,21 @@ function util_unzip() {
     fi
 }
 
+function util_unzip2() {
+    local zip=$1
+    local dir=$2
+    local file=$3
+    if [ -d "${dir}/${file}" ]; then
+        rm -rf "${dir}/${file}"
+    fi
+    mkdir -p "${dir}/${file}"
+    local ret="yes"
+    tar -x -C "$dir/${file}" -f "$zip" --strip-components 1 || ret="no"
+    if [ "no" = ret ]; then
+        rm -rf "$zip" && util_die "unzip ${zip} fail."
+    fi
+}
+
 function util_load_script() {
     source $1 || util_die "load script $1 fail."
 }

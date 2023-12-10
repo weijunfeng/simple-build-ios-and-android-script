@@ -45,10 +45,13 @@ echo "##########################################################################
 echo "#### Global Variable Partition                                            #####" >/dev/null
 echo "###############################################################################" >/dev/null
 
+export ANDROID_NDK_ROOT=/Users/weijunfeng/Library/Android/sdk/ndk/20.0.5594570
 export COMMON_PLATFORM_TYPE="android"
-export ANDROID_ARCHS=("armeabi-v7a" "arm64-v8a" "x86" "x86-64")
-export ANDROID_TRIPLES=("arm-linux-androideabi" "aarch64-linux-android" "i686-linux-android" "x86_64-linux-android")
-export ANDROID_API=23
+#export ANDROID_ARCHS=("armeabi-v7a" "arm64-v8a" "x86" "x86-64")
+export ANDROID_ARCHS=("armeabi-v7a" "x86" )
+#export ANDROID_TRIPLES=("arm-linux-androideabi" "aarch64-linux-android" "i686-linux-android" "x86_64-linux-android")
+export ANDROID_TRIPLES=("arm-linux-androideabi" "i686-linux-android")
+export ANDROID_API=16
 
 # for test
 # ANDROID_ARCHS=("armeabi-v7a")

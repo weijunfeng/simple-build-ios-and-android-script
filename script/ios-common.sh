@@ -46,14 +46,14 @@ echo "#### Global Variable Partition                                            
 echo "###############################################################################" >/dev/null
 
 export COMMON_PLATFORM_TYPE="ios"
-export IOS_ARCHS=("armv7" "arm64" "arm64e" "x86-64")
-export IOS_TRIPLES=("armv7-ios-darwin" "aarch64-ios-darwin" "aarch64-ios-darwin" "x86_64-ios-darwin")
+#export IOS_ARCHS=("armv7" "arm64" "arm64-simulator" "arm64e" "x86-64")
+#export IOS_TRIPLES=("armv7-ios-darwin" "aarch64-ios-darwin" "aarch64-ios-darwin" "aarch64-ios-darwin" "x86_64-ios-darwin")
 export IOS_API=8.0
 export IOS_SYSROOT=""
 
 # for test
-# IOS_ARCHS=("arm64")
-# IOS_TRIPLES=("aarch64-ios-darwin")
+export IOS_ARCHS=("arm64-simulator")
+export IOS_TRIPLES=("aarch64-ios-darwin")
 # IOS_API=8.0
 
 echo "###############################################################################" >/dev/null
@@ -66,7 +66,7 @@ function ios_get_sdk_name() {
     armv7 | armv7s | arm64 | arm64e)
         echo "iphoneos"
         ;;
-    x86 | x86-64)
+    arm64-simulator | x86 | x86-64)
         echo "iphonesimulator"
         ;;
     esac
@@ -89,6 +89,9 @@ function ios_get_build_host() {
         echo "armv7-ios-darwin"
         ;;
     arm64)
+        echo "aarch64-ios-darwin"
+        ;;
+    arm64-simulator)
         echo "aarch64-ios-darwin"
         ;;
     arm64e)
@@ -122,6 +125,13 @@ function ios_set_cpu_feature() {
         export CFLAGS="-arch arm64 -target aarch64-ios-darwin -march=armv8 -mcpu=generic -Wno-unused-function -fstrict-aliasing -Oz -Wno-ignored-optimization-argument -DIOS -fembed-bitcode -miphoneos-version-min=${api} -isysroot ${sysroot} -I${sysroot}/usr/include"
         export LDFLAGS="-arch arm64 -target aarch64-ios-darwin -march=armv8 -fembed-bitcode -isysroot ${sysroot} -L${sysroot}/usr/lib "
         export CXXFLAGS="-std=c++14 -arch arm64 -target aarch64-ios-darwin -march=armv8 -mcpu=generic -fstrict-aliasing -fembed-bitcode -DIOS -miphoneos-version-min=${api} -I${sysroot}/usr/include"
+        ;;
+    arm64-simulator)
+        export CC="xcrun -sdk iphonesimulator clang -arch arm64"
+        export CXX="xcrun -sdk iphonesimulator clang++ -arch arm64"
+        export CFLAGS="-arch arm64 -march=armv8 -mcpu=generic -Wno-unused-function -fstrict-aliasing -Oz -Wno-ignored-optimization-argument -DIOS -fembed-bitcode -mios-simulator-version-min=${api} -isysroot ${sysroot} -I${sysroot}/usr/include"
+        export LDFLAGS="-arch arm64 -march=armv8 -fembed-bitcode -isysroot ${sysroot} -L${sysroot}/usr/lib "
+        export CXXFLAGS="-std=c++14 -arch arm64 -march=armv8 -mcpu=generic -fstrict-aliasing -fembed-bitcode -mios-simulator-version-min=${api} -I${sysroot}/usr/include"
         ;;
     arm64e)
         # -march=armv8.3 ???

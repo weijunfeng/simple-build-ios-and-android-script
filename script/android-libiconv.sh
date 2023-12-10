@@ -30,7 +30,7 @@ echo "# Script version:          1.0.0                                          
 echo "# Url: https://github.com/AsteriskZuo/simple-build-ios-and-android-script     #" >/dev/null
 echo "#                                                                             #" >/dev/null
 echo "# Brief introduction:                                                         #" >/dev/null
-echo "# Build android protobuf shell script.                                        #" >/dev/null
+echo "# Build android libiconv shell script.                                        #" >/dev/null
 echo "#                                                                             #" >/dev/null
 echo "# Prerequisites:                                                              #" >/dev/null
 echo "# GNU bash (version 3.2.57 test success on macOS)                             #" >/dev/null
@@ -41,57 +41,57 @@ echo "##########################################################################
 
 # set -x
 
-protobuf_zip_file=""
-protobuf_zip_file_no_suffix=""
-protobuf_zip_file_path=""
-protobuf_zip_file_no_suffix_path=""
-protobuf_input_dir=""
-protobuf_output_dir=""
+libiconv_zip_file=""
+libiconv_zip_file_no_suffix=""
+libiconv_zip_file_path=""
+libiconv_zip_file_no_suffix_path=""
+libiconv_input_dir=""
+libiconv_output_dir=""
 
-function android_protobuf_printf_variable() {
-    log_var_print "protobuf_input_dir =                $protobuf_input_dir"
-    log_var_print "protobuf_output_dir =               $protobuf_output_dir"
-    log_var_print "protobuf_zip_file =                 $protobuf_zip_file"
-    log_var_print "protobuf_zip_file_no_suffix =       $protobuf_zip_file_no_suffix"
-    log_var_print "protobuf_zip_file_path =            $protobuf_zip_file_path"
-    log_var_print "protobuf_zip_file_no_suffix_path =  $protobuf_zip_file_no_suffix_path"
+function android_libiconv_printf_variable() {
+    log_var_print "libiconv_input_dir =                $libiconv_input_dir"
+    log_var_print "libiconv_output_dir =               $libiconv_output_dir"
+    log_var_print "libiconv_zip_file =                 $libiconv_zip_file"
+    log_var_print "libiconv_zip_file_no_suffix =       $libiconv_zip_file_no_suffix"
+    log_var_print "libiconv_zip_file_path =            $libiconv_zip_file_path"
+    log_var_print "libiconv_zip_file_no_suffix_path =  $libiconv_zip_file_no_suffix_path"
 }
 
-function android_protobuf_pre_tool_check() {
+function android_libiconv_pre_tool_check() {
 
-#    local protobuf_version=$(protoc --version)
-#    util_is_in "$COMMON_LIBRARY_VERSION" "$protobuf_version" || common_die "Protobuf is not installed on the system, see the protobuf installation instructions. (ref: https://github.com/protocolbuffers/protobuf/blob/master/src/README.md)"
+#    local libiconv_version=$(protoc --version)
+#    util_is_in "$COMMON_LIBRARY_VERSION" "$libiconv_version" || common_die "libiconv is not installed on the system, see the libiconv installation instructions. (ref: https://github.com/protocolbuffers/libiconv/blob/master/src/README.md)"
 
-    protobuf_input_dir="${COMMON_INPUT_DIR}/${COMMON_LIBRARY_NAME}"
-    protobuf_output_dir="${COMMON_OUTPUT_DIR}/${COMMON_PLATFORM_TYPE}/${COMMON_LIBRARY_NAME}"
+    libiconv_input_dir="${COMMON_INPUT_DIR}/${COMMON_LIBRARY_NAME}"
+    libiconv_output_dir="${COMMON_OUTPUT_DIR}/${COMMON_PLATFORM_TYPE}/${COMMON_LIBRARY_NAME}"
 
-    protobuf_zip_file="${COMMON_DOWNLOAD_ADRESS##*/}"
-    protobuf_zip_file_no_suffix=$(util_remove_substr "cpp-" ${protobuf_zip_file%.tar.gz})
-    protobuf_zip_file_path="${protobuf_input_dir}/${protobuf_zip_file}"
-    protobuf_zip_file_no_suffix_path="${protobuf_input_dir}/${protobuf_zip_file_no_suffix}"
+    libiconv_zip_file="${COMMON_DOWNLOAD_ADRESS##*/}"
+    libiconv_zip_file_no_suffix=$(util_remove_substr "cpp-" ${libiconv_zip_file%.tar.gz})
+    libiconv_zip_file_path="${libiconv_input_dir}/${libiconv_zip_file}"
+    libiconv_zip_file_no_suffix_path="${libiconv_input_dir}/${libiconv_zip_file_no_suffix}"
 
-    util_create_dir "${protobuf_input_dir}"
-    util_create_dir "${protobuf_output_dir}"
+    util_create_dir "${libiconv_input_dir}"
+    util_create_dir "${libiconv_output_dir}"
 
-    android_protobuf_printf_variable
+    android_libiconv_printf_variable
 
 }
 
-function android_protobuf_pre_download_zip() {
+function android_libiconv_pre_download_zip() {
     local library_id=$1
-    util_download_file "$COMMON_DOWNLOAD_ADRESS" "$protobuf_zip_file_path"
+    util_download_file "$COMMON_DOWNLOAD_ADRESS" "$libiconv_zip_file_path"
 }
 
-function android_protobuf_build_unzip() {
+function android_libiconv_build_unzip() {
     local library_id=$1
-    util_unzip2 "$protobuf_zip_file_path" "${protobuf_input_dir}" "$protobuf_zip_file_no_suffix"
+    util_unzip2 "$libiconv_zip_file_path" "${libiconv_input_dir}" "$libiconv_zip_file_no_suffix"
 }
 
-function android_protobuf_build_config_make() {
+function android_libiconv_build_config_make() {
     local library_id=$1
     local library_arch=$2
 
-    local library_arch_path="${protobuf_output_dir}/${library_arch}"
+    local library_arch_path="${libiconv_output_dir}/${library_arch}"
     util_remove_dir "$library_arch_path"
     util_create_dir "${library_arch_path}/log"
 
@@ -100,24 +100,22 @@ function android_protobuf_build_config_make() {
     android_printf_arch_variable
 
     pushd .
-    cd "$protobuf_zip_file_no_suffix_path"
-
-    sh autogen.sh
+    cd "$libiconv_zip_file_no_suffix_path"
 
     # git submodule update --init --recursive
     if [[ "${library_arch}" == "x86-64" ]]; then
 
-        # scc_info_FileDescriptorProto_google_2fprotobuf_2fdescriptor_2eproto , so use --disable-shared
+        # scc_info_FileDescriptorProto_google_2flibiconv_2fdescriptor_2eproto , so use --disable-shared
         ./configure --host=$(android_get_build_host "${library_arch}") --prefix="${library_arch_path}" --disable-shared  >"${library_arch_path}/log/output.log" 2>&1 || common_die "configure error!"
 
     elif [[ "${library_arch}" == "x86" ]]; then
 
-        # scc_info_FileDescriptorProto_google_2fprotobuf_2fdescriptor_2eproto , so use --disable-shared
+        # scc_info_FileDescriptorProto_google_2flibiconv_2fdescriptor_2eproto , so use --disable-shared
         ./configure --host=$(android_get_build_host "${library_arch}") --prefix="${library_arch_path}" --disable-shared  >"${library_arch_path}/log/output.log" 2>&1 || common_die "configure error!"
 
     elif [[ "${library_arch}" == "armeabi-v7a" ]]; then
 
-        # scc_info_FileDescriptorProto_google_2fprotobuf_2fdescriptor_2eproto , so use --disable-shared
+        # scc_info_FileDescriptorProto_google_2flibiconv_2fdescriptor_2eproto , so use --disable-shared
         ./configure --host=$(android_get_build_host "${library_arch}") --prefix="${library_arch_path}" --disable-shared  >"${library_arch_path}/log/output.log" 2>&1 || common_die "configure error!"
 
     elif [[ "${library_arch}" == "arm64-v8a" ]]; then
@@ -133,6 +131,6 @@ function android_protobuf_build_config_make() {
     popd
 }
 
-function android_protobuf_archive() {
+function android_libiconv_archive() {
     local library_name=$1
 }

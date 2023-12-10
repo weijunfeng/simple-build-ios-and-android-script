@@ -111,6 +111,10 @@ function ios_openssl_build_config_make() {
 
         ./Configure iphoneos-cross no-shared --prefix="${library_arch_path}" >"${library_arch_path}/log/output.log" 2>&1 || common_die "configure error!"
 
+    elif [[ "${library_arch}" == "arm64-simulator" ]]; then
+
+        ./Configure iphoneos-cross no-shared --prefix="${library_arch_path}" >"${library_arch_path}/log/output.log" 2>&1 || common_die "configure error!"
+
     elif [[ "${library_arch}" == "arm64e" ]]; then
 
         ./Configure iphoneos-cross no-shared --prefix="${library_arch_path}" >"${library_arch_path}/log/output.log" 2>&1 || common_die "configure error!"
@@ -142,6 +146,8 @@ function ios_openssl_archive() {
         util_remove_dir "${openssl_output_dir}/lipo"
         util_create_dir "${openssl_output_dir}/lipo"
         lipo ${static_library_ssl_list[@]} -create -output "${openssl_output_dir}/lipo/libssl-universal.a"
+        lipo -info "${openssl_output_dir}/lipo/libssl-universal.a"
         lipo ${static_library_crypto_list[@]} -create -output "${openssl_output_dir}/lipo/libcrypto-universal.a"
+        lipo -info "${openssl_output_dir}/lipo/libcrypto-universal.a"
     fi
 }

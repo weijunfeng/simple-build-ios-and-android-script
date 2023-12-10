@@ -135,5 +135,6 @@ function ios_nghttp2_archive() {
         util_remove_dir "${nghttp2_output_dir}/lipo"
         util_create_dir "${nghttp2_output_dir}/lipo"
         lipo ${static_library_list[@]} -create -output "${nghttp2_output_dir}/lipo/lib${COMMON_LIBRARY_NAME}-universal.a"
+        lipo -info "${nghttp2_output_dir}/lipo/lib${COMMON_LIBRARY_NAME}-universal.a"
     fi
 }

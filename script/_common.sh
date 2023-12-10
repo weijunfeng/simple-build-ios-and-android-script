@@ -60,24 +60,36 @@ export COMMON_LIBRARY_ID_LIST="
 2
 3
 4
+5
+6
+7
 "
 export COMMON_LIBRARY_NAME_LIST="
 openssl
 nghttp2
 curl
 protobuf
+libuuid
+snappy
+libiconv
 "
 export COMMON_LIBRARY_VERSION_LIST="
 1.1.1d
 1.40.0
 7.68.0
-3.11.4
+3.9.2
+1.0.3
+1.1.7
+1.16
 "
 export COMMON_LIBRARY_URL_LIST="
 https://www.openssl.org/source/openssl-1.1.1d.tar.gz
 https://github.com/nghttp2/nghttp2/releases/download/v1.40.0/nghttp2-1.40.0.tar.gz
 https://curl.haxx.se/download/curl-7.68.0.tar.gz
-https://github.com/protocolbuffers/protobuf/releases/download/v3.11.4/protobuf-cpp-3.11.4.tar.gz
+https://github.com/protocolbuffers/protobuf/releases/download/v3.9.2/protobuf-cpp-3.9.2.tar.gz
+http://nchc.dl.sourceforge.net/project/libuuid/libuuid-1.0.3.tar.gz
+https://github.com/google/snappy/archive/1.1.7.tar.gz
+https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz
 "
 
 util_create_dir "$COMMON_INPUT_DIR"
@@ -131,6 +143,15 @@ function common_get_library_id_from_name() {
         ;;
     protobuf)
         echo "4"
+        ;;
+    libuuid)
+        echo "5"
+        ;;
+    snappy)
+        echo "6"
+        ;;
+    libiconv)
+        echo "7"
         ;;
     *)
         echo "not support"

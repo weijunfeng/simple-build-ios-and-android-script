@@ -1,0 +1,22 @@
+ sudo curl -OL http://ftpmirror.gnu.org/autoconf/autoconf-latest.tar.gz
+ sudo tar xzf autoconf-latest.tar.gz
+ cd autoconf-latest
+ sudo ./configure --prefix=/usr/local/autotools-bin
+ sudo make
+ sudo make install
+ export PATH=$PATH:/usr/local/autotools-bin/bin
+
+
+ sudo curl -OL http://ftpmirror.gnu.org/automake/automake-1.15.tar.gz
+ sudo tar xzf automake-1.15.tar.gz
+ cd automake-1.15
+ sudo ./configure --prefix=/usr/local/autotools-bin
+ sudo sudo make
+ sudo make install
+
+ sudo curl -OL http://ftpmirror.gnu.org/libtool/libtool-2.4.6.tar.gz
+ sudo tar xzf libtool-2.4.6.tar.gz
+ cd libtool-2.4.6
+ sudo ./configure --prefix=/usr/local/autotools-bin
+ sudo make
+ sudo make install
